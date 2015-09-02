@@ -5,4 +5,5 @@ package main.scala
  */
 object Application extends App {
   println("Hello world!")
+  val parser = SimpleHtmlParser("test")
 }
