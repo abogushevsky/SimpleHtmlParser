@@ -1,5 +1,7 @@
 package main.scala
 
+import main.scala.SimpleHtmlParser.DfaState
+
 class Document(nodes: Array[Node]) {
   override def toString(): String = {
     val stringBuilder: StringBuilder = new StringBuilder
@@ -23,12 +25,18 @@ class Node(name: String, value: String, attributes: Map[String, String], childre
 /**
  * @author bogushevskiy
  */
-class SimpleHtmlParser {
-  
+class SimpleHtmlParser(htmlString: String) {
+  val state: DfaState = null;
 }
 
 object SimpleHtmlParser {
-  def apply(html: String) = {
-    null
+  sealed trait DfaState
+  case object None extends DfaState
+  case object TagName extends DfaState
+  case object AttributeName extends DfaState
+  case object AttributeValue extends DfaState
+
+  def apply(htmlString: String) = {
+    new SimpleHtmlParser(htmlString)
   }
 }
