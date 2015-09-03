@@ -26,7 +26,7 @@ class Node(name: String, value: String, attributes: Map[String, String], childre
  * @author bogushevskiy
  */
 class SimpleHtmlParser(htmlString: String) {
-  val state: DfaState = null;
+  val state: DfaState = main.scala.SimpleHtmlParser.None;
 }
 
 object SimpleHtmlParser {
