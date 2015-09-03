@@ -35,6 +35,10 @@ object SimpleHtmlParser {
   case object TagName extends DfaState
   case object AttributeName extends DfaState
   case object AttributeValue extends DfaState
+  case object TagClose extends DfaState
+  case object TagEnd extends DfaState
+  case object TextContent extends DfaState
+  case object Comment extends DfaState
 
   def apply(htmlString: String) = {
     new SimpleHtmlParser(htmlString)
