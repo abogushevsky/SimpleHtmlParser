@@ -23,10 +23,14 @@ class Node(name: String, value: String, attributes: Map[String, String], childre
 }
 
 /**
- * @author bogushevskiy
+ * @author Anton Bogushevsky
  */
 class SimpleHtmlParser(htmlString: String) {
   val state: DfaState = main.scala.SimpleHtmlParser.None;
+
+  private def parse(htmlString: String, startPos: Int) = {
+
+  }
 }
 
 object SimpleHtmlParser {
