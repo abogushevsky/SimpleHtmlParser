@@ -28,8 +28,8 @@ class Node(name: String, value: String, attributes: Map[String, String], childre
 class SimpleHtmlParser(htmlString: String) {
   val state: DfaState = main.scala.SimpleHtmlParser.None;
 
-  private def parse(htmlString: String, startPos: Int) = {
-
+  private def parse(htmlString: String, startPos: Int, currentState: DfaState) = {
+    1
   }
 }
 
