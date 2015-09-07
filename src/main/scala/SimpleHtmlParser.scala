@@ -1,6 +1,6 @@
 package main.scala
 
-import main.scala.SimpleHtmlParser.DfaState
+import main.scala.SimpleHtmlParser.{AttributeName, TagName, DfaState}
 
 class Document(nodes: Array[Node]) {
   override def toString(): String = {
@@ -28,14 +28,19 @@ class Node(name: String, value: String, attributes: Map[String, String], childre
 class SimpleHtmlParser(htmlString: String) {
   val doc = parse(htmlString)
   private def parse(htmlString: String) = {
-    val startPos = htmlString.indexOf('<');
-    val nodes = parseNode(htmlString, startPos, SimpleHtmlParser.None)
+    val nodes = parseNode(htmlString, moveToState(TagName, htmlString, 0), TagName)
 
     Document(nodes)
   }
 
   private def parseNode(htmlString: String, currentPos: Int, currentState: DfaState): Array[Node] = {
     null
+  }
+
+  private def moveToState(state: DfaState, htmlString: String, currentPos: Int): Int = state match {
+    case SimpleHtmlParser.None => currentPos
+    case TagName => htmlString.indexOf('<', currentPos) + 1
+    case _ => currentPos
   }
 }
 
