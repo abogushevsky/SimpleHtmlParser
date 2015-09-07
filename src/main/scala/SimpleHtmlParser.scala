@@ -33,6 +33,10 @@ class SimpleHtmlParser(htmlString: String) {
     Document(nodes)
   }
 
+  private def proceed(htmlString: String, currentPos: Int, currentState: DfaState) = {
+
+  }
+
   private def parseNode(htmlString: String, currentPos: Int, currentState: DfaState): Array[Node] = {
     null
   }
