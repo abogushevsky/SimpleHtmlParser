@@ -69,11 +69,31 @@ object SimpleHtmlParser {
     override val nextStates: Array[DfaState] = Array(AttributeValue, TagClose, TagEnd)
     override val transitionChars: Array[Char] = Array()
   }
-  case object AttributeValue extends DfaState
-  case object TagClose extends DfaState
-  case object TagEnd extends DfaState
-  case object TextContent extends DfaState
-  case object Comment extends DfaState
+  case object AttributeValue extends DfaState {
+    override val prevState: Array[DfaState] = _
+    override val nextStates: Array[DfaState] = _
+    override val transitionChars: Array[Char] = _
+  }
+  case object TagClose extends DfaState {
+    override val prevState: Array[DfaState] = _
+    override val nextStates: Array[DfaState] = _
+    override val transitionChars: Array[Char] = _
+  }
+  case object TagEnd extends DfaState {
+    override val prevState: Array[DfaState] = _
+    override val nextStates: Array[DfaState] = _
+    override val transitionChars: Array[Char] = _
+  }
+  case object TextContent extends DfaState {
+    override val prevState: Array[DfaState] = _
+    override val nextStates: Array[DfaState] = _
+    override val transitionChars: Array[Char] = _
+  }
+  case object Comment extends DfaState {
+    override val prevState: Array[DfaState] = _
+    override val nextStates: Array[DfaState] = _
+    override val transitionChars: Array[Char] = _
+  }
 
   def apply(htmlString: String) = {
     new SimpleHtmlParser(htmlString)
