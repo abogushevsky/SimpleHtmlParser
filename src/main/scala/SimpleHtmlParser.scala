@@ -26,9 +26,16 @@ class Node(name: String, value: String, attributes: Map[String, String], childre
  * @author Anton Bogushevsky
  */
 class SimpleHtmlParser(htmlString: String) {
-  val doc = parse(htmlString, 0, SimpleHtmlParser.None)
-  private def parse(htmlString: String, startPos: Int, currentState: DfaState) = {
-    1
+  val doc = parse(htmlString)
+  private def parse(htmlString: String) = {
+    val startPos = htmlString.indexOf('<');
+    val nodes = parseNode(htmlString, startPos, SimpleHtmlParser.None)
+
+    Document(nodes)
+  }
+
+  private def parseNode(htmlString: String, currentPos: Int, currentState: DfaState): Array[Node] = {
+    null
   }
 }
 
