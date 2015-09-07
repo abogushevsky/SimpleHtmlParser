@@ -49,10 +49,26 @@ class SimpleHtmlParser(htmlString: String) {
 }
 
 object SimpleHtmlParser {
-  sealed trait DfaState
-  case object None extends DfaState
-  case object TagName extends DfaState
-  case object AttributeName extends DfaState
+  sealed trait DfaState {
+    val prevState: Array[DfaState]
+    val nextStates: Array[DfaState]
+    val transitionChars: Array[Char]
+  }
+  case object None extends DfaState {
+    override val nextStates: Array[DfaState] = Array(TagName, TextContent, Comment)
+    override val transitionChars: Array[Char] = _
+    override val prevState: Array[DfaState] = Array(TagEnd, TextContent, Comment)
+  }
+  case object TagName extends DfaState {
+    override val prevState: Array[DfaState] = Array(None, TagEnd, TextContent, Comment)
+    override val nextStates: Array[DfaState] = Array(AttributeName, TagClose, TagEnd)
+    override val transitionChars: Array[Char] = Array('<')
+  }
+  case object AttributeName extends DfaState {
+    override val prevState: Array[DfaState] = Array(TagName)
+    override val nextStates: Array[DfaState] = Array(AttributeValue, TagClose, TagEnd)
+    override val transitionChars: Array[Char] = Array()
+  }
   case object AttributeValue extends DfaState
   case object TagClose extends DfaState
   case object TagEnd extends DfaState
