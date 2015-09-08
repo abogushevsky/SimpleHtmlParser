@@ -28,8 +28,8 @@ class Node(name: String, value: String, attributes: Map[String, String], childre
 class SimpleHtmlParser(htmlString: String) {
   val doc = parse(htmlString)
   private def parse(htmlString: String) = {
-    val nodes = parseNode(htmlString, moveToState(TagName, htmlString, 0), TagName)
-
+    val nodes = parseNodes(htmlString, moveToState(TagName, htmlString, 0), TagName)
+    
     Document(nodes)
   }
 
@@ -37,7 +37,13 @@ class SimpleHtmlParser(htmlString: String) {
 
   }
 
-  private def parseNode(htmlString: String, currentPos: Int, currentState: DfaState): Array[Node] = {
+  private def next(htmlString: String, curPos: Int, curState: DfaState) = curState match {
+      //val curChar = htmlString.charAt(curPos)
+      case TagName => //выбрать совпадение из nextStates.transitionChars, вернуть tuple (curPos, DfaState)
+      case _ => next(htmlString, ++curPos, curState)
+  }
+  
+  private def parseNodes(htmlString: String, currentPos: Int, currentState: DfaState): Array[Node] = {
     null
   }
 
