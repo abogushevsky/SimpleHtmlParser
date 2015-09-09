@@ -1,6 +1,6 @@
 package main.scala
 
-import main.scala.SimpleHtmlParser.{AttributeName, TagName, DfaState}
+import main.scala.SimpleHtmlParser._
 
 class Document(nodes: Array[Node]) {
   override def toString(): String = {
@@ -37,10 +37,15 @@ class SimpleHtmlParser(htmlString: String) {
 
   }
 
-  private def nextState(htmlString: String, pos: Int, currentState: DfaState) = htmlString.charAt(pos) match {
-    case '<' => (pos + 1, TagName)
-    case ' ' => currentState match {
-      case TagName => (pos + 1, AttributeName)
+  private def nextState(htmlString: String, pos: Int, currentState: DfaState): (Int, DfaState) = {
+    val next = pos + 1;
+    htmlString.charAt(pos) match {
+      case '<' => (next, TagName)
+      case ' ' => currentState match {
+        case TagName => (next, InTag)
+        case AttributeName => (next, InTag)
+        case AttributeValue => nextState(htmlString, next, currentState)
+      }
     }
   }
 
@@ -71,7 +76,7 @@ object SimpleHtmlParser {
     override val nextStates: Array[DfaState] = Array(AttributeName, TagClose, TagEnd)
     override val transitionChars: Array[Char] = Array('<')
   }
-  case object EndTagName extends DfaState {
+  case object InTag extends DfaState {
     override val prevState: Array[DfaState] = _
     override val nextStates: Array[DfaState] = _
     override val transitionChars: Array[Char] = _
