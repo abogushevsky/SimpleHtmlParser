@@ -44,7 +44,11 @@ class SimpleHtmlParser(htmlString: String) {
       case ' ' => currentState match {
         case TagName => (next, InTag)
         case AttributeName => (next, InTag)
-        case AttributeValue => nextState(htmlString, next, currentState)
+        case _ => nextState(htmlString, next, currentState)
+      }
+      case '=' => currentState match {
+        case AttributeName => (next, AttributeValue)
+        case _ => nextState(htmlString, next, currentState)
       }
     }
   }
