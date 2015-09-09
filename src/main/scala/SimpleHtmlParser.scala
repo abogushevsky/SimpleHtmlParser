@@ -50,6 +50,14 @@ class SimpleHtmlParser(htmlString: String) {
         case AttributeName => (next, AttributeValue)
         case _ => nextState(htmlString, next, currentState)
       }
+      case '/' => currentState match {
+        case TagName | InTag => (pos, TagEnd)
+        case _ => nextState(htmlString, next, currentState)
+      }
+      case '>' => currentState match {
+        case TagName | InTag | TagEnd => (pos, TagClose)
+        case _ => nextState(htmlString, next, currentState)
+      }
     }
   }
 
