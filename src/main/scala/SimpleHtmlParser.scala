@@ -28,7 +28,7 @@ class Node(name: String, value: String, attributes: Map[String, String], childre
 class SimpleHtmlParser(htmlString: String) {
   val doc = parse(htmlString)
   private def parse(htmlString: String) = {
-    val nodes = parseNodes(htmlString, moveToState(TagName, htmlString, 0), TagName)
+    val nodes = parseNodes(htmlString, 0, TagName)
     
     Document(nodes)
   }
@@ -37,21 +37,22 @@ class SimpleHtmlParser(htmlString: String) {
 
   }
 
-  private def next(htmlString: String, curPos: Int, curState: DfaState) = curState match {
-      //val curChar = htmlString.charAt(curPos)
-      case TagName => //выбрать совпадение из nextStates.transitionChars, вернуть tuple (curPos, DfaState)
-      case _ => next(htmlString, ++curPos, curState)
+  private def nextState(htmlString: String, pos: Int, currentState: DfaState) = htmlString.charAt(pos) match {
+    case '<' => (pos + 1, TagName)
+    case ' ' => currentState match {
+      case TagName => (pos + 1, AttributeName)
+    }
   }
-  
+
   private def parseNodes(htmlString: String, currentPos: Int, currentState: DfaState): Array[Node] = {
     null
   }
 
-  private def moveToState(state: DfaState, htmlString: String, currentPos: Int): Int = state match {
+  /*private def moveToState(state: DfaState, htmlString: String, currentPos: Int): Int = state match {
     case SimpleHtmlParser.None => currentPos
     case TagName => htmlString.indexOf('<', currentPos) + 1
     case _ => currentPos
-  }
+  }*/
 }
 
 object SimpleHtmlParser {
@@ -69,6 +70,11 @@ object SimpleHtmlParser {
     override val prevState: Array[DfaState] = Array(None, TagEnd, TextContent, Comment)
     override val nextStates: Array[DfaState] = Array(AttributeName, TagClose, TagEnd)
     override val transitionChars: Array[Char] = Array('<')
+  }
+  case object EndTagName extends DfaState {
+    override val prevState: Array[DfaState] = _
+    override val nextStates: Array[DfaState] = _
+    override val transitionChars: Array[Char] = _
   }
   case object AttributeName extends DfaState {
     override val prevState: Array[DfaState] = Array(TagName)
