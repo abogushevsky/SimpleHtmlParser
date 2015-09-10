@@ -65,6 +65,12 @@ class SimpleHtmlParser(htmlString: String) {
         case TagName | InTag | TagEnd => (pos, TagClose)
         case _ => nextState(htmlString, next, currentState)
       }
+      case '!' => currentState match {
+        case TagName => htmlString.charAt(next) == '-' && htmlString.charAt(next + 1) == '-' ?
+                        nextState(htmlString, next + 2, SimpleHtmlParser.Comment) :
+                        nextState(htmlString, next, currentState)
+        case _ => nextState(htmlString, next, currentState)
+      }
       case _ => nextState(htmlString, next, currentState)
     }
   }
