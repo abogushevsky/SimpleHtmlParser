@@ -31,8 +31,10 @@ class SimpleHtmlParser(htmlString: String) {
     val nodes = parseNodes(htmlString, 0, TagName)
     
     val nextStatePos = nextState(htmlString, 0, SimpleHtmlParser.None)
-    nextStatePos match {
-      case (Int, TagName) => {
+    val nextPos = nextStatePos._1
+    val nextState = nextStatePos._2
+    nextState match {
+      case TagName => {
         //?
       }
     }
@@ -41,7 +43,7 @@ class SimpleHtmlParser(htmlString: String) {
   }
 
   private def proceed(htmlString: String, currentPos: Int, currentState: DfaState) = {
-    
+    //val statePos = nextState(htmlString, currentPos, currentState)
   }
 
   private def nextState(htmlString: String, pos: Int, currentState: DfaState): (Int, DfaState) = {
