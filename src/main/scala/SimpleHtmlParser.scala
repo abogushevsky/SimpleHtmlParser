@@ -31,9 +31,9 @@ class SimpleHtmlParser(htmlString: String) {
     val nodes = parseNodes(htmlString, 0, TagName)
     
     val nextStatePos = nextState(htmlString, 0, SimpleHtmlParser.None)
-    val nextPos = nextStatePos._1
-    val nextState = nextStatePos._2
-    nextState match {
+    val pos = nextStatePos._1
+    val state = nextStatePos._2
+    state match {
       case TagName => {
         //?
       }
@@ -65,15 +65,17 @@ class SimpleHtmlParser(htmlString: String) {
       }
       case '>' => currentState match {
         case TagName | InTag | TagEnd => (pos, TagClose)
-        case Comment => htmlString.charAt(pos - 1) == '-' && htmlString.charAt(pos - 2) == '-' ?
-                        nextState(htmlString, next, SimpleHtmlParser.None) :
-                        nextState(htmlString, next, currentState) //TODO: double check
+        case Comment => if (htmlString.charAt(pos - 1) == '-' && htmlString.charAt(pos - 2) == '-')
+                          nextState(htmlString, next, SimpleHtmlParser.None)
+                        else
+                          nextState(htmlString, next, currentState) //TODO: double check
         case _ => nextState(htmlString, next, currentState)
       }
       case '!' => currentState match {
-        case TagName => htmlString.charAt(next) == '-' && htmlString.charAt(next + 1) == '-' ?
-                        nextState(htmlString, next + 2, SimpleHtmlParser.Comment) :
-                        nextState(htmlString, next, currentState)
+        case TagName => if (htmlString.charAt(next) == '-' && htmlString.charAt(next + 1) == '-')
+                          nextState(htmlString, next + 2, SimpleHtmlParser.Comment)
+                        else
+                          nextState(htmlString, next, currentState)
         case _ => nextState(htmlString, next, currentState)
       }
       case _ => nextState(htmlString, next, currentState)
