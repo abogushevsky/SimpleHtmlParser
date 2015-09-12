@@ -42,10 +42,6 @@ class SimpleHtmlParser(htmlString: String) {
     Document(nodes)
   }
 
-  private def proceed(htmlString: String, currentPos: Int, currentState: DfaState) = {
-    //val statePos = nextState(htmlString, currentPos, currentState)
-  }
-
   private def nextState(htmlString: String, pos: Int, currentState: DfaState): (Int, DfaState) = {
     val next = pos + 1;
     htmlString.charAt(pos) match {
@@ -85,12 +81,6 @@ class SimpleHtmlParser(htmlString: String) {
   private def parseNodes(htmlString: String, currentPos: Int, currentState: DfaState): Array[Node] = {
     null
   }
-
-  /*private def moveToState(state: DfaState, htmlString: String, currentPos: Int): Int = state match {
-    case SimpleHtmlParser.None => currentPos
-    case TagName => htmlString.indexOf('<', currentPos) + 1
-    case _ => currentPos
-  }*/
 }
 
 object SimpleHtmlParser {
