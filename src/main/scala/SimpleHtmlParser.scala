@@ -44,6 +44,11 @@ class SimpleHtmlParser(htmlString: String) {
 
   private def nextState(htmlString: String, pos: Int, currentState: DfaState): (Int, DfaState) = {
     val next = pos + 1;
+
+    if (pos == htmlString.length) {
+      return (pos, EndDoc)
+    }
+
     htmlString.charAt(pos) match {
       case '<' => (next, TagName)
       case ' ' => currentState match {
@@ -130,6 +135,11 @@ object SimpleHtmlParser {
     override val transitionChars: Array[Char] = _
   }
   case object Comment extends DfaState {
+    override val prevState: Array[DfaState] = _
+    override val nextStates: Array[DfaState] = _
+    override val transitionChars: Array[Char] = _
+  }
+  case object EndDoc extends DfaState {
     override val prevState: Array[DfaState] = _
     override val nextStates: Array[DfaState] = _
     override val transitionChars: Array[Char] = _
