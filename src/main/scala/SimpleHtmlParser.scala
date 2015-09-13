@@ -36,7 +36,7 @@ class SimpleHtmlParser(htmlString: String) {
     val state = nextStatePos._2
     state match {
       case TagName => {
-        nodes += parseNode(htmlString, pos)
+        //nodes += parseNode(htmlString, pos)
       }
     }
     
