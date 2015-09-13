@@ -27,6 +27,7 @@ class Node(name: String, value: String, attributes: Map[String, String], childre
  */
 class SimpleHtmlParser(htmlString: String) {
   val doc = parse(htmlString)
+
   private def parse(htmlString: String) = {
     val nodes = parseNodes(htmlString, 0, TagName)
     
@@ -40,6 +41,11 @@ class SimpleHtmlParser(htmlString: String) {
     }
     
     Document(nodes)
+  }
+
+  private def parseNode(htmlString: String, startPos: Int): Node = {
+    //TODO: parse until tagEnd && tagClose
+    null
   }
 
   private def nextState(htmlString: String, pos: Int, currentState: DfaState): (Int, DfaState) = {
