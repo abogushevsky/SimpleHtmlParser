@@ -95,61 +95,17 @@ class SimpleHtmlParser(htmlString: String) {
 }
 
 object SimpleHtmlParser {
-  sealed trait DfaState {
-    val prevState: Array[DfaState]
-    val nextStates: Array[DfaState]
-    val transitionChars: Array[Char]
-  }
-  case object None extends DfaState {
-    override val nextStates: Array[DfaState] = Array(TagName, TextContent, Comment)
-    override val transitionChars: Array[Char] = _
-    override val prevState: Array[DfaState] = Array(TagEnd, TextContent, Comment)
-  }
-  case object TagName extends DfaState {
-    override val prevState: Array[DfaState] = Array(None, TagEnd, TextContent, Comment)
-    override val nextStates: Array[DfaState] = Array(AttributeName, TagClose, TagEnd)
-    override val transitionChars: Array[Char] = Array('<')
-  }
-  case object InTag extends DfaState {
-    override val prevState: Array[DfaState] = _
-    override val nextStates: Array[DfaState] = _
-    override val transitionChars: Array[Char] = _
-  }
-  case object AttributeName extends DfaState {
-    override val prevState: Array[DfaState] = Array(TagName)
-    override val nextStates: Array[DfaState] = Array(AttributeValue, TagClose, TagEnd)
-    override val transitionChars: Array[Char] = Array()
-  }
-  case object AttributeValue extends DfaState {
-    override val prevState: Array[DfaState] = _
-    override val nextStates: Array[DfaState] = _
-    override val transitionChars: Array[Char] = _
-  }
-  case object TagClose extends DfaState {
-    override val prevState: Array[DfaState] = _
-    override val nextStates: Array[DfaState] = _
-    override val transitionChars: Array[Char] = _
-  }
-  case object TagEnd extends DfaState {
-    override val prevState: Array[DfaState] = _
-    override val nextStates: Array[DfaState] = _
-    override val transitionChars: Array[Char] = _
-  }
-  case object TextContent extends DfaState {
-    override val prevState: Array[DfaState] = _
-    override val nextStates: Array[DfaState] = _
-    override val transitionChars: Array[Char] = _
-  }
-  case object Comment extends DfaState {
-    override val prevState: Array[DfaState] = _
-    override val nextStates: Array[DfaState] = _
-    override val transitionChars: Array[Char] = _
-  }
-  case object EndDoc extends DfaState {
-    override val prevState: Array[DfaState] = _
-    override val nextStates: Array[DfaState] = _
-    override val transitionChars: Array[Char] = _
-  }
+  sealed trait DfaState
+  case object None extends DfaState
+  case object TagName extends DfaState
+  case object InTag extends DfaState
+  case object AttributeName extends DfaState
+  case object AttributeValue extends DfaState
+  case object TagClose extends DfaState
+  case object TagEnd extends DfaState
+  case object TextContent extends DfaState
+  case object Comment extends DfaState
+  case object EndDoc extends DfaState
 
   def apply(htmlString: String) = {
     new SimpleHtmlParser(htmlString)
