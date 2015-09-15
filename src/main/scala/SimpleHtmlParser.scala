@@ -44,7 +44,18 @@ class SimpleHtmlParser(htmlString: String) {
   }
 
   private def parseNode(htmlString: String, startPos: Int): Node = {
-    //TODO: parse until tagEnd && tagClose
+    var nodeName = ""
+    var nodeValue = ""
+    
+    val nextPos = startPos + 1
+    val nextStatePos = nextState(htmlString, nextPos, TagName)
+    val pos = nextStatePos._1
+    val state = nextStatePos._2
+    
+    state match {
+      case InTag | TagEnd | TagClose => nodeName = htmlString.substring(nextPos, pos) 
+    }
+    
     null
   }
 
