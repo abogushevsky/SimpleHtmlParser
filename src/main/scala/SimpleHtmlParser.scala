@@ -57,7 +57,7 @@ class SimpleHtmlParser(htmlString: String) {
       case _ => null
     }
 
-    new Node(nodeName, null, Array[Node]())
+    new Node(nodeName, null, null, null)
   }
 
   private def nextState(htmlString: String, pos: Int, currentState: DfaState): (Int, DfaState) = {
