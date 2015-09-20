@@ -31,16 +31,16 @@ class SimpleHtmlParser(htmlString: String) {
   private def parse(htmlString: String) = {
     var nodes: List[Node] = List()
 
-    val nextStatePos = nextState(htmlString, 0, SimpleHtmlParser.None)
-    val state = nextStatePos._2
+    var nextStatePos = nextState(htmlString, 0, SimpleHtmlParser.None)
     while (nextStatePos._2 != EndDoc) {
       val pos = nextStatePos._1
-      state match {
+      nextStatePos._2 match {
         case TagName => {
           nodes.::(parseNode(htmlString, pos))
         }
         case _ =>
       }
+      nextStatePos = nextState(htmlString, pos + 1, nextStatePos._2);
     }
 
     Document(nodes.toArray)
@@ -51,21 +51,19 @@ class SimpleHtmlParser(htmlString: String) {
     var nodeValue: String = null
     
     val nextPos = startPos + 1
-    val nextStatePos = nextState(htmlString, nextPos, TagName)
+    var nextStatePos = nextState(htmlString, nextPos, TagName)
 
-    val state = nextStatePos._2
-    while (state != TagEnd) {
+    while (nextStatePos._2 != TagEnd) {
       val pos = nextStatePos._1
-      state match {
+      nextStatePos._2 match {
         case InTag | TagEnd | TagClose => {
           nodeName = htmlString.substring(nextPos, pos)
 
         }
         case _ => null
       }
+      nextStatePos = nextState(htmlString, pos + 1, nextStatePos._2)
     }
-
-
 
     new Node(nodeName, nodeValue, null, null)
   }
